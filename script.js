@@ -19,11 +19,7 @@ function fetchData() {
 // Function to render the data on the page
 function renderData(data) {
     const dataList = document.getElementById('dataList');
-    row.addEventListener('click', () => {
-        console.log('Clicked album:', record);
-        alert('Clicked album: ' + record.album_title); // Test if the click event is triggered
-    });
-    
+
     // Check if dataList exists
     if (!dataList) {
         console.error('Data list element not found');
@@ -67,11 +63,13 @@ function renderData(data) {
                     row.appendChild(td);
                 });
 
-                // Add event listener to each row (album) to show tracks
-                row.addEventListener('click', () => {
-                    // Here you can define the logic to display tracks for the clicked album
-                    console.log('Clicked album:', record); // Example: Log the clicked album record
-                });
+            // Add event listener to each row (album) to show tracks
+            row.addEventListener('click', () => {
+                // Debug statement to log the clicked album
+                console.log('Clicked album:', record);
+                // Example: Display an alert with the album title
+                alert('Clicked album: ' + record.album_title);
+            });
 
                 table.appendChild(row);
             });
