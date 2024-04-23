@@ -62,6 +62,13 @@ function renderData(data) {
                     }
                     row.appendChild(td);
                 });
+
+                // Add event listener to each row (album) to show tracks
+                row.addEventListener('click', () => {
+                    // Here you can define the logic to display tracks for the clicked album
+                    console.log('Clicked album:', record); // Example: Log the clicked album record
+                });
+
                 table.appendChild(row);
             });
 
