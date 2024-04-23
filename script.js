@@ -35,8 +35,6 @@ function handleFileUpload() {
 
     reader.readAsText(file);
 }
-
-
 // Function to render the data on the page
 function renderData(data) {
     const dataList = document.getElementById('dataList');
@@ -47,53 +45,66 @@ function renderData(data) {
         return;
     }
 
-    // Iterate over each item in the data
-    data.forEach(item => {
-        // Check if the item is a table with data
-        if (item.type === 'table' && item.data) {
-            // Create a table element
-            const table = document.createElement('table');
-            table.classList.add('data-table'); // Add a class for styling if needed
+    // Clear existing content
+    dataList.innerHTML = '';
 
-            // Create table header
-            const headerRow = document.createElement('tr');
-            Object.keys(item.data[0]).forEach(key => {
-                const th = document.createElement('th');
-                th.textContent = key === 'IMAGE_NAME' ? 'IMAGE' : key; // Change the header text
-                headerRow.appendChild(th);
-            });
-            table.appendChild(headerRow);
+    // Check if the data is an array
+    if (Array.isArray(data)) {
+        // Iterate over each item in the data
+        data.forEach(item => {
+            // Check if the item is a table with data
+            if (item.type === 'table' && item.data) {
+                // Create a table element
+                const table = document.createElement('table');
+                table.classList.add('data-table'); // Add a class for styling if needed
 
-            // Create table rows for each record
-            item.data.forEach(record => {
-                const row = document.createElement('tr');
-                Object.entries(record).forEach(([key, value]) => {
-                    const td = document.createElement('td');
-                    if (key === 'IMAGE_NAME') {
-                        const img = document.createElement('img');
-                        img.src = value;
-                        img.alt = 'Image';
-                        img.style.maxWidth = '100px'; // Adjust as needed
-                        td.appendChild(img);
-                    } else {
-                        td.textContent = value;
-                    }
-                    row.appendChild(td);
+                // Create table header
+                const headerRow = document.createElement('tr');
+                Object.keys(item.data[0]).forEach(key => {
+                    const th = document.createElement('th');
+                    th.textContent = key === 'IMAGE_NAME' ? 'IMAGE' : key; // Change the header text
+                    headerRow.appendChild(th);
                 });
-                // Add click event listener to each row
-                row.addEventListener('click', function() {
-                    // Redirect to a new page with the tracks for the clicked album
-                    const albumID = record.ID; // Assuming there's an ID field in the album data
-                    generateTracksPage(albumID); // Generate tracks.html with albumID
-                });
-                table.appendChild(row);
-            });
+                table.appendChild(headerRow);
 
-            // Append the table to the data list
-            dataList.appendChild(table);
-        }
-    });
+                // Create table rows for each record
+                item.data.forEach(record => {
+                    const row = document.createElement('tr');
+                    Object.entries(record).forEach(([key, value]) => {
+                        const td = document.createElement('td');
+                        if (key === 'IMAGE_NAME') {
+                            const img = document.createElement('img');
+                            img.src = value;
+                            img.alt = 'Image';
+                            img.style.maxWidth = '100px'; // Adjust as needed
+                            td.appendChild(img);
+                        } else {
+                            td.textContent = value;
+                        }
+                        row.appendChild(td);
+                    });
+                    // Add click event listener to each row
+                    row.addEventListener('click', function() {
+                        // Redirect to a new page with the tracks for the clicked album
+                        const albumID = record.ID; // Assuming there's an ID field in the album data
+                        generateTracksPage(albumID); // Generate tracks.html with albumID
+                    });
+                    table.appendChild(row);
+                });
+
+                // Append the table to the data list
+                dataList.appendChild(table);
+            }
+        });
+    } else {
+        // If the data is not an array, display it differently (based on the structure of the data)
+        // You can customize this part based on the structure of your JSON file
+        const listItem = document.createElement('li');
+        listItem.textContent = JSON.stringify(data);
+        dataList.appendChild(listItem);
+    }
 }
+
 
 // Function to generate tracks.html with albumID
 function generateTracksPage(albumID) {
