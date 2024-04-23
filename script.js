@@ -64,7 +64,7 @@ function renderData(data) {
                 row.addEventListener('click', function() {
                     // Redirect to a new page with the tracks for the clicked album
                     const albumID = record.ID; // Assuming there's an ID field in the album data
-                    window.location.href = `tracks.html?albumID=${albumID}`;
+                    generateTracksPage(albumID); // Generate tracks.html with albumID
                 });
                 table.appendChild(row);
             });
@@ -73,6 +73,15 @@ function renderData(data) {
             dataList.appendChild(table);
         }
     });
+}
+
+// Function to generate tracks.html with albumID
+function generateTracksPage(albumID) {
+    // Construct the URL with the albumID parameter
+    const tracksURL = `tracks.html?albumID=${albumID}`;
+
+    // Redirect to tracks.html
+    window.location.href = tracksURL;
 }
 // Call the fetchData function when the page loads
 window.onload = fetchData;
