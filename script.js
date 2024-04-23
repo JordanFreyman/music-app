@@ -63,13 +63,15 @@ function renderData(data) {
                     row.appendChild(td);
                 });
 
-            // Add event listener to each row (album) to show tracks
-            row.addEventListener('click', () => {
-                // Debug statement to log the clicked album
-                console.log('Clicked album:', record);
-                // Example: Display an alert with the album title
-                alert('Clicked album: ' + record.album_title);
-            });
+                // Add event listener to each row (album) to show tracks
+                row.addEventListener('click', (event) => {
+                    // Get the clicked album record
+                    const clickedRecord = record;
+                    // Debug statement to log the clicked album
+                    console.log('Clicked album:', clickedRecord);
+                    // Example: Display an alert with the album title
+                    alert('Clicked album: ' + clickedRecord.album_title);
+                });
 
                 table.appendChild(row);
             });
@@ -79,6 +81,5 @@ function renderData(data) {
         }
     });
 }
-
 // Call the fetchData function when the page loads
 window.onload = fetchData;
