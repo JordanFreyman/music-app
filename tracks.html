@@ -40,39 +40,36 @@
                 .catch(error => console.error('Error fetching data:', error));
         }
 
-        // Function to render tracks on the page
-        function renderTracks(data) {
-            const tracksList = document.getElementById('tracksList');
+ // Function to render tracks on the page
+function renderTracks(data) {
+    const tracksList = document.getElementById('tracksList');
 
-            // Check if tracksList exists
-            if (!tracksList) {
-                console.error('Tracks list element not found');
-                return;
-            }
+    // Check if tracksList exists
+    if (!tracksList) {
+        console.error('Tracks list element not found');
+        return;
+    }
 
-            // Find the tracks data
-            const tracksData = data.find(item => item.name === 'tracks');
+    // Find the tracks data
+    const tracksData = data.find(item => item.name === 'tracks');
 
-            // Check if the tracks data exists
-            if (!tracksData || !tracksData.data) {
-                console.error('Tracks data not found');
-                return;
-            }
+    // Check if the tracks data exists
+    if (!tracksData || !tracksData.data) {
+        console.error('Tracks data not found');
+        return;
+    }
 
-            // Filter tracks data for the specific album ID
-            const tracksForAlbum = tracksData.data.filter(track => track.albumID === albumID);
+    // Iterate over each track in the tracks data
+    tracksData.data.forEach(track => {
+        // Create a div element for the track
+        const trackDiv = document.createElement('div');
+        trackDiv.classList.add('track');
+        trackDiv.textContent = track.track_title;
 
-            // Iterate over each track in the album
-            tracksForAlbum.forEach(track => {
-                // Create a div element for the track
-                const trackDiv = document.createElement('div');
-                trackDiv.classList.add('track');
-                trackDiv.textContent = track.track_title;
-
-                // Append the track div to the tracks list
-                tracksList.appendChild(trackDiv);
-            });
-        }
+        // Append the track div to the tracks list
+        tracksList.appendChild(trackDiv);
+    });
+}
 
         // Call the fetchTracks function when the page loads
         window.onload = fetchTracks;
