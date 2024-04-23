@@ -26,27 +26,50 @@ function renderData(data) {
         return;
     }
 
-    // Clear dataList before rendering new data
+    // Clear previous content
     dataList.innerHTML = '';
 
     // Iterate over each item in the data
     data.forEach(item => {
-        // Check if the item is an album with data
-        if (item.type === 'album' && item.data) {
-            // Create a clickable album element
-            const albumElement = document.createElement('div');
-            albumElement.classList.add('album');
-            const albumData = item.data;
-            albumElement.textContent = `${albumData.artist} - ${albumData.title}`;
-            // Add click event listener to navigate to tracks.html
-            albumElement.addEventListener('click', () => {
-                // Navigate to tracks.html with album ID as query parameter
-                window.location.href = `tracks.html?album_id=${albumData.id}`;
+        // Check if the item is a table with data
+        if (item.type === 'table' && item.data) {
+            // Create a table element
+            const table = document.createElement('table');
+            table.classList.add('data-table'); // Add a class for styling if needed
+
+            // Create table header
+            const headerRow = document.createElement('tr');
+            Object.keys(item.data[0]).forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key === 'IMAGE_NAME' ? 'IMAGE' : key; // Change the header text
+                headerRow.appendChild(th);
             });
-            // Append the album element to the data list
-            dataList.appendChild(albumElement);
+            table.appendChild(headerRow);
+
+            // Create table rows for each record
+            item.data.forEach(record => {
+                const row = document.createElement('tr');
+                Object.entries(record).forEach(([key, value]) => {
+                    const td = document.createElement('td');
+                    if (key === 'IMAGE_NAME') {
+                        const img = document.createElement('img');
+                        img.src = value;
+                        img.alt = 'Image';
+                        img.style.maxWidth = '100px'; // Adjust as needed
+                        td.appendChild(img);
+                    } else {
+                        td.textContent = value;
+                    }
+                    row.appendChild(td);
+                });
+                table.appendChild(row);
+            });
+
+            // Append the table to the data list
+            dataList.appendChild(table);
         }
     });
 }
+
 // Call the fetchData function when the page loads
 window.onload = fetchData;
