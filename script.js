@@ -19,7 +19,11 @@ function fetchData() {
 // Function to render the data on the page
 function renderData(data) {
     const dataList = document.getElementById('dataList');
-
+    row.addEventListener('click', () => {
+        console.log('Clicked album:', record);
+        alert('Clicked album: ' + record.album_title); // Test if the click event is triggered
+    });
+    
     // Check if dataList exists
     if (!dataList) {
         console.error('Data list element not found');
