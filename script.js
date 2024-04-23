@@ -16,6 +16,30 @@ function fetchData() {
         .catch(error => console.error('Error fetching data:', error));
 }
 
+function handleFileUpload() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        console.error('No file selected');
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const jsonData = event.target.result;
+        try {
+            const data = JSON.parse(jsonData);
+            renderData(data); // Call a function to render data on the page
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+        }
+    };
+
+    reader.readAsText(file);
+}
+
 
 // Function to render the data on the page
 function renderData(data) {
