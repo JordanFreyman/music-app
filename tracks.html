@@ -81,10 +81,12 @@ function renderTracks(data) {
         trackTitle.textContent = track.track_title;
         trackDiv.appendChild(trackTitle);
 
-        // Display video URL
-        const videoUrl = document.createElement('div');
-        videoUrl.textContent = `Video URL: ${track.video_url}`;
-        trackDiv.appendChild(videoUrl);
+        // Display video URL as clickable link
+        const videoLink = document.createElement('a');
+        videoLink.textContent = 'Video Link';
+        videoLink.href = track.video_url;
+        videoLink.target = '_blank'; // Open in a new tab
+        trackDiv.appendChild(videoLink);
 
         // Display lyrics
         const lyrics = document.createElement('div');
@@ -94,6 +96,7 @@ function renderTracks(data) {
         // Append the track div to the tracks list
         tracksList.appendChild(trackDiv);
     });
+
 }
         // Call the fetchTracks function when the page loads
         window.onload = fetchTracks;
