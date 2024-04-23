@@ -18,23 +18,19 @@ function fetchData() {
 
 function handleFileUpload() {
     const fileInput = document.getElementById('fileInput');
-    const file = fileInput.files[0];
+    const fileList = fileInput.files;
 
-    if (!file) {
+    if (fileList.length === 0) {
         console.error('No file selected');
         return;
     }
 
+    const file = fileList[0];
     const reader = new FileReader();
 
     reader.onload = function(event) {
-        const jsonData = event.target.result;
-        try {
-            const data = JSON.parse(jsonData);
-            renderData(data); // Call a function to render data on the page
-        } catch (error) {
-            console.error('Error parsing JSON:', error);
-        }
+        const data = JSON.parse(event.target.result);
+        renderData(data);
     };
 
     reader.readAsText(file);
