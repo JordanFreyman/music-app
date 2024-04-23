@@ -83,7 +83,7 @@ function renderTracks(data) {
 
         // Display video URL as clickable link
         const videoLink = document.createElement('a');
-        videoLink.textContent = 'Video Link';
+        videoLink.textContent = `Video URL: ${track.video_url}`;
         videoLink.href = track.video_url;
         videoLink.target = '_blank'; // Open in a new tab
         trackDiv.appendChild(videoLink);
