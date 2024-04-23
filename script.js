@@ -83,5 +83,6 @@ function generateTracksPage(albumID) {
     // Redirect to tracks.html
     window.location.href = tracksURL;
 }
+
 // Call the fetchData function when the page loads
 window.onload = fetchData;

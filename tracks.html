@@ -50,21 +50,24 @@
                 return;
             }
 
-            // Find the album with the matching ID
-            const album = data.find(item => item.ID === albumID);
+            // Find the tracks data
+            const tracksData = data.find(item => item.name === 'tracks');
 
-            // Check if the album exists
-            if (!album) {
-                console.error('Album not found');
+            // Check if the tracks data exists
+            if (!tracksData || !tracksData.data) {
+                console.error('Tracks data not found');
                 return;
             }
 
+            // Filter tracks data for the specific album ID
+            const tracksForAlbum = tracksData.data.filter(track => track.albumID === albumID);
+
             // Iterate over each track in the album
-            album.tracks.forEach(track => {
+            tracksForAlbum.forEach(track => {
                 // Create a div element for the track
                 const trackDiv = document.createElement('div');
                 trackDiv.classList.add('track');
-                trackDiv.textContent = track.title;
+                trackDiv.textContent = track.track_title;
 
                 // Append the track div to the tracks list
                 tracksList.appendChild(trackDiv);
