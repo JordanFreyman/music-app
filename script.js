@@ -31,17 +31,17 @@ function renderData(data) {
 
     // Iterate over each item in the data
     data.forEach(item => {
-        console.log("Item:", item); // Log the current item
         // Check if the item is an album with data
         if (item.type === 'album' && item.data) {
             // Create a clickable album element
             const albumElement = document.createElement('div');
             albumElement.classList.add('album');
-            albumElement.textContent = `${item.data.artist} - ${item.data.title}`;
+            const albumData = item.data;
+            albumElement.textContent = `${albumData.artist} - ${albumData.title}`;
             // Add click event listener to navigate to tracks.html
             albumElement.addEventListener('click', () => {
                 // Navigate to tracks.html with album ID as query parameter
-                window.location.href = `tracks.html?album_id=${item.data.id}`;
+                window.location.href = `tracks.html?album_id=${albumData.id}`;
             });
             // Append the album element to the data list
             dataList.appendChild(albumElement);
