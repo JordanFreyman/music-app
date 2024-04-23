@@ -59,11 +59,15 @@ function renderTracks(data) {
         return;
     }
 
-    // Iterate over each track in the tracks data
-    tracksData.data.forEach(track => {
+    // Filter tracks data for the specific album ID
+    const albumTracks = tracksData.data.filter(track => track.albumID === albumID);
+
+    // Iterate over each track in the album
+    albumTracks.forEach(track => {
         // Create a div element for the track
         const trackDiv = document.createElement('div');
         trackDiv.classList.add('track');
+
 
         // Display track title
         const trackTitle = document.createElement('span');
