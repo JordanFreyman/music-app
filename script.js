@@ -1,4 +1,37 @@
-// Function to fetch data from the JSON file
+
+
+const fs = require('fs');
+const jsonData = require('C:/Users/jfrey/Documents/GitHub/music-app/music.json');
+
+// Function to generate HTML content for the tracks
+function generateTracksHTML(tracks) {
+    let htmlContent = '<!DOCTYPE html>\n<html>\n<head>\n<title>Tracks</title>\n</head>\n<body>\n<h1>Tracks</h1>\n<ul>\n';
+
+    tracks.forEach(track => {
+        htmlContent += `<li>${track.track_title} - ${track.number}</li>\n`;
+    });
+
+    htmlContent += '</ul>\n</body>\n</html>';
+
+    return htmlContent;
+}
+
+// Extract track data from JSON
+const tracksData = jsonData.find(item => item.type === 'table' && item.name === 'tracks').data;
+
+// Generate HTML content for tracks
+const tracksHTML = generateTracksHTML(tracksData);
+
+// Write HTML content to tracks.html
+fs.writeFile('tracks.html', tracksHTML, err => {
+    if (err) {
+        console.error('Error writing tracks.html:', err);
+        return;
+    }
+    console.log('tracks.html created successfully.');
+});
+
+
 // Function to fetch data from the JSON file
 function fetchData() {
     console.log("Fetching data...");
