@@ -25,6 +25,7 @@ function handleFileUpload() {
         return;
     }
 
+    console.log('Hello?');
     const file = fileList[0];
     const reader = new FileReader();
 
