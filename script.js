@@ -64,14 +64,14 @@ function renderData(data) {
                 });
 
                 // Add event listener to each row (album) to show tracks
-                row.addEventListener('click', (event) => {
-                    // Get the clicked album record
-                    const clickedRecord = record;
-                    // Debug statement to log the clicked album
-                    console.log('Clicked album:', clickedRecord);
-                    // Example: Display an alert with the album title
-                    alert('Clicked album: ' + clickedRecord.album_title);
-                });
+                row.addEventListener('click', (function(record) {
+                    return function(event) {
+                        // Debug statement to log the clicked album
+                        console.log('Clicked album:', record);
+                        // Example: Display an alert with the album title
+                        alert('Clicked album: ' + record.album_title);
+                    };
+                })(record));
 
                 table.appendChild(row);
             });
