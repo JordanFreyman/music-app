@@ -16,6 +16,7 @@ function fetchData() {
         .catch(error => console.error('Error fetching data:', error));
 }
 
+
 // Function to render the data on the page
 function renderData(data) {
     const dataList = document.getElementById('dataList');
@@ -25,9 +26,6 @@ function renderData(data) {
         console.error('Data list element not found');
         return;
     }
-
-    // Clear previous content
-    dataList.innerHTML = '';
 
     // Iterate over each item in the data
     data.forEach(item => {
@@ -62,17 +60,12 @@ function renderData(data) {
                     }
                     row.appendChild(td);
                 });
-
-                // Add event listener to each row (album) to show tracks
-                row.addEventListener('click', (function(record) {
-                    return function(event) {
-                        // Debug statement to log the clicked album
-                        console.log('Clicked album:', record);
-                        // Example: Display an alert with the album title
-                        alert('Clicked album: ' + record.album_title);
-                    };
-                })(record));
-
+                // Add click event listener to each row
+                row.addEventListener('click', function() {
+                    // Redirect to a new page with the tracks for the clicked album
+                    const albumID = record.ID; // Assuming there's an ID field in the album data
+                    window.location.href = `tracks.html?albumID=${albumID}`;
+                });
                 table.appendChild(row);
             });
 
