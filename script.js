@@ -67,51 +67,49 @@ function renderData(data) {
     }
 
     // Iterate over each item in the data
-    data.forEach(item => {
-        // Check if the item is a table with data
-        if (item.type === 'table' && item.data) {
-            // Create a table element
-            const table = document.createElement('table');
-            table.classList.add('data-table'); // Add a class for styling if needed
+    // Iterate over each item in the data
+data.forEach(item => {
+    console.log("Item:", item); // Log the current item
+    // Check if the item is a table with data
+    if (item.type === 'table' && item.data) {
+        // Create a table element
+        const table = document.createElement('table');
+        table.classList.add('data-table'); // Add a class for styling if needed
 
-            // Create table header
-            const headerRow = document.createElement('tr');
-            Object.keys(item.data[0]).forEach(key => {
-                const th = document.createElement('th');
-                th.textContent = key === 'IMAGE_NAME' ? 'IMAGE' : key; // Change the header text
-                headerRow.appendChild(th);
+// Create table header
+const headerRow = document.createElement('tr');
+Object.keys(item.data[0]).forEach(key => {
+    const th = document.createElement('th');
+    th.textContent = key === 'IMAGE_NAME' ? 'IMAGE' : key; // Change the header text
+    headerRow.appendChild(th);
+});
+table.appendChild(headerRow);
+
+
+        // Create table rows for each record
+        item.data.forEach(record => {
+            const row = document.createElement('tr');
+            Object.entries(record).forEach(([key, value]) => {
+                const td = document.createElement('td');
+                if (key === 'IMAGE_NAME') {
+                    const img = document.createElement('img');
+                    img.src = value;
+                    img.alt = 'Image';
+                    img.style.maxWidth = '100px'; // Adjust as needed
+                    td.appendChild(img);
+                } else {
+                    td.textContent = value;
+                }
+                row.appendChild(td);
             });
-            table.appendChild(headerRow);
+            table.appendChild(row);
+        });
 
-            // Create table rows for each record
-            item.data.forEach(record => {
-                const row = document.createElement('tr');
-                Object.entries(record).forEach(([key, value]) => {
-                    const td = document.createElement('td');
-                    if (key === 'IMAGE_NAME') {
-                        const img = document.createElement('img');
-                        img.src = value;
-                        img.alt = 'Image';
-                        img.style.maxWidth = '100px'; // Adjust as needed
-                        td.appendChild(img);
-                    } else {
-                        td.textContent = value;
-                    }
-                    row.appendChild(td);
-                });
-                // Add click event listener to each row
-                row.addEventListener('click', function() {
-                    // Redirect to a new page with the tracks for the clicked album
-                    const albumID = record.ID; // Assuming there's an ID field in the album data
-                    window.location.href = `tracks.html?albumID=${albumID}`;
-                });
-                table.appendChild(row);
-            });
+        // Append the table to the data list
+        dataList.appendChild(table);
+    }
+});
 
-            // Append the table to the data list
-            dataList.appendChild(table);
-        }
-    });
 }
 
 // Call the fetchData function when the page loads
