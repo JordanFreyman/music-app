@@ -59,6 +59,10 @@ function renderTracks(data) {
         return;
     }
 
+    // Get the clicked album ID from the URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const albumID = urlParams.get('albumID');
+
     // Filter tracks data for the specific album ID
     const albumTracks = tracksData.data.filter(track => track.albumID === albumID);
 
@@ -68,6 +72,10 @@ function renderTracks(data) {
         const trackDiv = document.createElement('div');
         trackDiv.classList.add('track');
 
+        // Display track number
+        const trackNumber = document.createElement('span');
+        trackNumber.textContent = `Track ${track.number}: `;
+        trackDiv.appendChild(trackNumber);
 
         // Display track title
         const trackTitle = document.createElement('span');
@@ -88,6 +96,10 @@ function renderTracks(data) {
         tracksList.appendChild(trackDiv);
     });
 }
+
+// Call the fetchTracks function when the page loads
+window.onload = fetchTracks;
+
 
 
         // Call the fetchTracks function when the page loads
