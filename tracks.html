@@ -3,13 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Album Tracks</title>
+    <title>Tracks</title>
+    <style>
+        /* Add your CSS styles here */
+        .track {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Album Tracks</h1>
-    <ul id="trackList">
+    <h1>Tracks</h1>
+    <div id="tracksList">
         <!-- Tracks will be dynamically added here -->
-    </ul>
-    <script src="script.js"></script>
+    </div>
+
+    <script>
+        // Get the albumID from the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const albumID = urlParams.get('albumID');
+
+        // Function to fetch tracks data based on albumID
+        function fetchTracks() {
+            console.log("Fetching tracks for album ID:", albumID);
+            fetch('music.json')
+                .then(response => {
+                    console.log("Response:", response); // Log the response
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Data:", data); // Log the fetched data
+                    renderTracks(data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Function to render tracks on the page
+        function renderTracks(data) {
+            const tracksList = document.getElementById('tracksList');
+
+            // Check if tracksList exists
+            if (!tracksList) {
+                console.error('Tracks list element not found');
+                return;
+            }
+
+            // Find the album with the matching ID
+            const album = data.find(item => item.ID === albumID);
+
+            // Check if the album exists
+            if (!album) {
+                console.error('Album not found');
+                return;
+            }
+
+            // Iterate over each track in the album
+            album.tracks.forEach(track => {
+                // Create a div element for the track
+                const trackDiv = document.createElement('div');
+                trackDiv.classList.add('track');
+                trackDiv.textContent = track.title;
+
+                // Append the track div to the tracks list
+                tracksList.appendChild(trackDiv);
+            });
+        }
+
+        // Call the fetchTracks function when the page loads
+        window.onload = fetchTracks;
+    </script>
 </body>
 </html>
