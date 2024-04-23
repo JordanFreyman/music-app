@@ -46,6 +46,11 @@ function renderData(data) {
 
             // Create table rows for each record
             item.data.forEach(record => {
+                // Skip non-data objects
+                if (record.type !== 'data') {
+                    return;
+                }
+                
                 const row = document.createElement('tr');
                 Object.entries(record).forEach(([key, value]) => {
                     const td = document.createElement('td');
