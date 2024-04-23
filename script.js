@@ -17,63 +17,63 @@ function fetchData() {
 }
 
 
-// Function to render the data on the page
-function renderData(data) {
-    const dataList = document.getElementById('dataList');
+// Function to render tracks on the page
+function renderTracks(data) {
+    const tracksList = document.getElementById('tracksList');
 
-    // Check if dataList exists
-    if (!dataList) {
-        console.error('Data list element not found');
+    // Check if tracksList exists
+    if (!tracksList) {
+        console.error('Tracks list element not found');
         return;
     }
 
-    // Iterate over each item in the data
-    data.forEach(item => {
-        // Check if the item is a table with data
-        if (item.type === 'table' && item.data) {
-            // Create a table element
-            const table = document.createElement('table');
-            table.classList.add('data-table'); // Add a class for styling if needed
+    // Get the albumID from the URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const albumID = urlParams.get('albumID');
 
-            // Create table header
-            const headerRow = document.createElement('tr');
-            Object.keys(item.data[0]).forEach(key => {
-                const th = document.createElement('th');
-                th.textContent = key === 'IMAGE_NAME' ? 'IMAGE' : key; // Change the header text
-                headerRow.appendChild(th);
-            });
-            table.appendChild(headerRow);
+    // Find the tracks data
+    const tracksData = data.find(item => item.name === 'tracks');
 
-            // Create table rows for each record
-            item.data.forEach(record => {
-                const row = document.createElement('tr');
-                Object.entries(record).forEach(([key, value]) => {
-                    const td = document.createElement('td');
-                    if (key === 'IMAGE_NAME') {
-                        const img = document.createElement('img');
-                        img.src = value;
-                        img.alt = 'Image';
-                        img.style.maxWidth = '100px'; // Adjust as needed
-                        td.appendChild(img);
-                    } else {
-                        td.textContent = value;
-                    }
-                    row.appendChild(td);
-                });
-                // Add click event listener to each row
-                row.addEventListener('click', function() {
-                    // Redirect to a new page with the tracks for the clicked album
-                    const albumID = record.ID; // Assuming there's an ID field in the album data
-                    generateTracksPage(albumID); // Generate tracks.html with albumID
-                });
-                table.appendChild(row);
-            });
+    // Check if the tracks data exists
+    if (!tracksData || !tracksData.data) {
+        console.error('Tracks data not found');
+        return;
+    }
 
-            // Append the table to the data list
-            dataList.appendChild(table);
-        }
+    // Filter tracks data for the specific album ID
+    const tracksForAlbum = tracksData.data.filter(track => track.ID === albumID);
+
+    // Iterate over each track in the album
+    tracksForAlbum.forEach(track => {
+        // Create a div element for the track
+        const trackDiv = document.createElement('div');
+        trackDiv.classList.add('track');
+
+        // Display track number
+        const trackNumber = document.createElement('span');
+        trackNumber.textContent = `Track ${track.number}: `;
+        trackDiv.appendChild(trackNumber);
+
+        // Display track title
+        const trackTitle = document.createElement('span');
+        trackTitle.textContent = track.track_title;
+        trackDiv.appendChild(trackTitle);
+
+        // Display video URL
+        const videoUrl = document.createElement('div');
+        videoUrl.textContent = `Video URL: ${track.video_url}`;
+        trackDiv.appendChild(videoUrl);
+
+        // Display lyrics
+        const lyrics = document.createElement('div');
+        lyrics.textContent = `Lyrics: ${track.lyrics}`;
+        trackDiv.appendChild(lyrics);
+
+        // Append the track div to the tracks list
+        tracksList.appendChild(trackDiv);
     });
 }
+
 
 // Function to generate tracks.html with albumID
 function generateTracksPage(albumID) {
