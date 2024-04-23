@@ -17,7 +17,7 @@ function fetchData() {
 }
 
 
-/// Function to render the data on the page
+// Function to render the data on the page
 function renderData(data) {
     const dataList = document.getElementById('dataList');
 
@@ -30,12 +30,12 @@ function renderData(data) {
     // Iterate over each item in the data
     data.forEach(item => {
         // Check if the item is a table with data
-        if (item.type === 'table' && item.data && item.data.length > 0) {
+        if (item.type === 'table' && item.data) {
             // Create a table element
             const table = document.createElement('table');
             table.classList.add('data-table'); // Add a class for styling if needed
 
-            // Create table header if data is not empty
+            // Create table header
             const headerRow = document.createElement('tr');
             Object.keys(item.data[0]).forEach(key => {
                 const th = document.createElement('th');
@@ -46,11 +46,6 @@ function renderData(data) {
 
             // Create table rows for each record
             item.data.forEach(record => {
-                // Skip non-data objects
-                if (record.type !== 'data') {
-                    return;
-                }
-                
                 const row = document.createElement('tr');
                 Object.entries(record).forEach(([key, value]) => {
                     const td = document.createElement('td');
@@ -88,6 +83,5 @@ function generateTracksPage(albumID) {
     // Redirect to tracks.html
     window.location.href = tracksURL;
 }
-
 // Call the fetchData function when the page loads
 window.onload = fetchData;
